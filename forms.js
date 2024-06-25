@@ -76,9 +76,9 @@ function openEditModal(index) {
   shapeSelect.value = selectedElement.classList[0];
 
   if (selectedElement.classList.contains("trianglee")) {
-    colorSelect.value = rgbToHex(selectedElement.style.borderBottomColor) || "#000000";
+    colorSelect.value = rgbToHex(selectedElement.style.borderBottomColor) || rgbToHex('rgb(215, 245, 250)');
   } else {
-    colorSelect.value = rgbToHex(selectedElement.style.backgroundColor) || "#000000";
+    colorSelect.value = rgbToHex(selectedElement.style.backgroundColor) || rgbToHex('rgb(215, 245, 250)');
   }
 
   dialog.showModal();
