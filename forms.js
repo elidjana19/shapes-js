@@ -9,48 +9,34 @@ btn.addEventListener("click", () => {
   console.log(rows);
   console.log(columns);
 
-  container.innerHTML = ''; 
-  container.className = '';  
+  container.innerHTML = "";
+  container.className = "";
+  let index = 0;
 
+  container.classList.add("grid");
+  container.style.gridTemplateColumns = `repeat(${columns}, auto)`;
+  container.style.gridTemplateRows = `repeat(${rows}, auto)`;
+  for (let i = 0; i < rows * columns; i++) {
+    const div = document.createElement("div");
+    div.innerHTML = index;
+    index++;
 
-  if (shape === 'katerkendesh') {
-    container.classList.add("grid")
-    container.style.gridTemplateColumns = `repeat(${columns}, auto)`;
-    container.style.gridTemplateRows = `repeat(${rows}, auto)`;
-    for (let i = 0; i < rows * columns; i++) {
-        const div = document.createElement('div');
-        div.classList.add("square")
-        container.appendChild(div);
+    if (shape === "square") {
+      div.classList.add("square");
+    } else if (shape === "triangle") {
+      div.classList.add("trianglee");
+    } else if (shape === "ellipse") {
+      div.classList.add("ellipse");
     }
-} else if (shape === 'trekendesh') {
 
-    container.classList.add("grid")
-    container.style.gridTemplateColumns = `repeat(${columns}, auto)`;
-    container.style.gridTemplateRows = `repeat(${rows}, auto)`;
-    for (let i = 0; i < rows * columns; i++) {
-        const div = document.createElement('div');
-        div.classList.add("trianglee")
-        container.appendChild(div);
-    }
-} else if (shape === 'elipse') {
-    container.classList.add("grid")
-    container.style.gridTemplateColumns = `repeat(${columns}, auto)`;
-    container.style.gridTemplateRows = `repeat(${rows}, auto)`;
-    for (let i = 0; i < rows * columns; i++) {
-        const div = document.createElement('div');
-        div.classList.add("ellipse")
-        container.appendChild(div);
-    }
-}
+    container.appendChild(div);
+  }
 
-clearForm()
+  clearForm();
 });
 
-
-function clearForm(){
-    document.getElementById("shape").value = ""
-  document.getElementById("rows").value= ""
-    document.getElementById("columns").value=""
+function clearForm() {
+  document.getElementById("shape").value = "";
+  document.getElementById("rows").value = "";
+  document.getElementById("columns").value = "";
 }
-
-
