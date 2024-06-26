@@ -22,7 +22,7 @@ btn.addEventListener("click", () => {
 
   for (let index = 0; index < rows * columns; index++) {
     const div = document.createElement("div");
-    div.dataset.index = index;
+    div.dataset.index = index;      //add data-index atribute at div
     div.innerHTML = index;
 
     if (shape === "square") {
@@ -147,8 +147,8 @@ function edit(index) {
 }
 
 function removeFromSidebar(index) {
-  const elementId = `element-${index}`;
-  const element = document.getElementById(elementId);
+  //const elementId = `element-${index}`;
+  const element = container.querySelector(`[data-index="${index}"]`);
   if (element) {
     selectedElements.removeChild(element);
   }
