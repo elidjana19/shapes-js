@@ -7,6 +7,8 @@ const cancelBtn = document.getElementById("cancel");
 const shapeSelect = document.getElementById("shapeSelect");
 const colorSelect = document.getElementById("colorSelect");
 
+let lastSelectedIndex = null;
+
 btn.addEventListener("click", () => {
   const shape = document.getElementById("shape").value;
   const rows = parseInt(document.getElementById("rows").value);
@@ -22,7 +24,6 @@ btn.addEventListener("click", () => {
     const div = document.createElement("div");
     div.dataset.index = index;
     div.innerHTML = index;
-    console.log(div);
 
     if (shape === "square") {
       div.classList.add("square");
@@ -32,53 +33,81 @@ btn.addEventListener("click", () => {
       div.classList.add("ellipse");
     }
 
-    div.addEventListener("click", () => toggleSelect(div, index, shape));
+    div.addEventListener("click", (event) => select(event, div, index));
     container.appendChild(div);
   }
 
   clearForm();
 });
 
-function toggleSelect(div, index, shape) {
+function select(event, div, index) {
+  if (event.shiftKey && lastSelectedIndex !== null) {
+    shift(lastSelectedIndex, index);
+  } else if (event.ctrlKey) {
+    toggleSelect(div, index);
+  } else {
+    container
+      .querySelectorAll(".selected")
+      .forEach((el) => el.classList.remove("selected"));
+    selectedElements.innerHTML = "";
+    toggleSelect(div, index);
+  }
+  lastSelectedIndex = index;
+}
+
+function toggleSelect(div, index) {
   div.classList.toggle("selected");
   if (div.classList.contains("selected")) {
-    addToSidebar(index, shape);
+    addToSidebar(index);
   } else {
     removeFromSidebar(index);
   }
 }
 
-function addToSidebar(index, shape) {
+
+function shift(start, end) {
+  let from, to 
+  if(start<end ){
+    [from, to]=[start, end]
+  }else{
+    [from,to] = [end, start]
+  }
+  for (let i = from; i <= to; i++) {
+    const div = container.querySelector(`[data-index="${i}"]`);
+    if (!div.classList.contains("selected")) {
+      div.classList.add("selected");
+      addToSidebar(i);
+    }
+  }
+
+}
+function addToSidebar(index) {
   const elementId = `element-${index}`;
   const element = document.createElement("div");
   element.classList.add("accordion-item");
   element.innerHTML = `
- <div id="accordion">
-  <div class="card">
-    <div class="card-header top">
-      <a class="card-link" data-toggle="collapse" href="#collapse${index}">
-        Element ${index}
-      </a>
-    </div>
-    <div id="collapse${index}" class="collapse " data-parent="#accordion">
-      <div class="card-body div-collapse">
-        <p>Click edit to style element with ID: ${index} </p>
-        <button class="btn btn-primary" onclick="openEditModal(${index})">Edit</button>
-      </div>
-    </div>
-  </div>
-  </div>
-  `;
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header top">
+                        <a class="card-link" data-toggle="collapse" href="#collapse${index}">
+                            Element ${index}
+                        </a>
+                    </div>
+                    <div id="collapse${index}" class="collapse" data-parent="#accordion">
+                        <div class="card-body div-collapse">
+                            <p>Click edit to style element with ID: ${index} </p>
+                            <button class="btn btn-primary" onclick="edit(${index})">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
   element.id = elementId;
-
   selectedElements.appendChild(element);
 }
 
-
-
-function openEditModal(index) {
+function edit(index) {
   const selectedElement = container.querySelector(`[data-index="${index}"]`);
-  console.log(selectedElement);
 
   shapeSelect.value = selectedElement.classList[0];
 
@@ -133,7 +162,6 @@ function clearForm() {
 
 function rgbToHex(rgbString) {
   if (!rgbString) return null;
-  // Convert rgb color string to hex because input type color uses hex
   const rgbArray = rgbString.match(/\d+/g).map(Number);
   const hex = `#${rgbArray
     .map((c) => c.toString(16).padStart(2, "0"))

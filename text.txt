@@ -1,0 +1,82 @@
+HTML:Ne html kam krijuar nje div container dhe kam perdorur bootstrap per pjesen se si do i shfaq elementet
+brenda container kam nje div row dhe 2 kolona nje me gjeresi 8 dhe tjetra 4, pasi gjithe gjeresia shkon deri ne 12.
+Tek kolona 8 kam krijuar nje div inner-container tek i cili kam vendosur nje select element per te zgjedhur formen e figures qe do krijoj
+dhe 2 inpute per te marre nga perdoruesi numrin e rreshtave dhe te kolonave dhe ne fund butonin i cili ne klikimin e vet gjeneron figurat me te dhenat
+e vendosura me siper. Dhe keto figura pasi i gjeneroj ne js i vendos tek container me klase grid.
+Me pas tek kolona 4 kam krijuar nje sidebar, i cili do te afishoje elementet e zgjedhur dhe mundesine per ti edituar ato.
+Gjithashtu kam ndertuar edhe nje dialog i cili do te shfaqet kur te klikoj butonin
+edit per nje element te caktuar.
+
+CSS: stilizoj dhe pozicinoj elementet. krijoj klasen .grid qe do vendos tek containeri qe do mbaje figurat.
+krijoj 3 klasa per 3 format e kerkuara si .triangle .square .ellipse dhe duke perdorur width height border background-color krijoj figurat.
+Krijoj klasen .selected e cila do u aplikohet elementeve te zgjedhur nga containeri ku kam perdorur box-shadow dhe jo border pasi 3 format qe kam jane te ndryshme 
+dhe nuk mund tu vendosja nje border te njejte.
+
+JS: Aksesoj elementet e html.
+
+Funksionaliteti i pare qe kam krijuar eshte gjenerimi i figurave. Kur klikoj butonin "gjenero"
+marr vleren e selectit, per te percaktuar formen e figures/figurave, nr e rreshtave dhe nr e kolonave.
+Pastroj containerin nga afishimet e meparshme nese ka patur dhe containerit i vendos klasen grid
+te cilen e kam krijuar ne css qe container-i te kete display grid, nr e kolonave dhe rreshtave qe mora i vendos tek ky grid
+Dhe do krijoj elemente sa prodhimi i kolonave me rreshtat. Figurat i krijoj si div element dhe me dataset.index ruaj indexin e tyre te cilin e vendos edhe 
+si tekst tek figurat per ti dalluar. ME pas kontrolloj nese select ka value "square""ellipse" apo "triangle"
+dhe ne baze te vleres se zgjedhur une divit te krijuar i vendos nje klasat e css square, triangle, ellipse qe bejne te mundur afishimin 
+e divit ne nje nga keto forma.
+Ne kete menyre une kam gjeneruar figurat me shape, row dhe column te percaktuar nga perdoruesi.
+
+Nese klikoj nje figure therras metoden per select(). Metode e cila do me ndihmoje te bej selektimin e elementeve.
+PEr selektimin e elemeneteve une kam menduar 3 forma: click mbi nje element, ctrl+click per te klikuar dhe selektuar disa elemente 
+dhe shift+click per te selektuar gjithe elementet nga figura e fundit deri tek elementi i ri i klikuar.
+Dhe figuren e krijuar ne fund e bej append tek containeri.
+
+select() sic edhe e permenda kjo metode ben te mundur selektimin ne 3 menyrat.
+nese tab-i i klikuar eshte Shift dhe lastSelectedIndex nuk eshte null therras metoden shift() qe menaxhon selektimin e elementeve
+nga elementi i fundit i klikuar deri tek ai qe sapo u klikua.
+NEse eshte klikuar ctrl therras metoden toggleSelect qe ben te mundur vendosjen e klases
+.selected per te gjithe elementet e klikuar. dhe nese nuk kam klikuar as ctrl as shift une heq klasen aktive nga format
+dhe e vendos kete klase aktive vetem tek indeksi qe klikohet duke mos e ruajtur tek forma e klikuar me pare duke perdorur toggleSelect().
+
+shift(start, end) shift ben te mundur qe te selektoj elementet midis ketyre dy indekseve qe merr si argumenta
+kur thirret kjo metode shift(lastIndex, index) ka 2 parametra indeksin e elementit qe ishte i klikuar dhe ai qe u klikua me shift gjithashtu qe ruhet si lastIndex.
+
+tek metoda lastIndex= start dhe index=end
+nese lastIndex /start =7 dhe index /end =2
+kontrolloj nese start apo end ka vlere me te madhe,
+
+nese start > end me array destructuring krijoj nje vektor [from, to]
+ku from=end dhe to=start pra [2,7]
+
+nese start < end krijoj nje vektor [from, to] 
+por from ka vleren e start dhe to ka vleren e end
+
+pasi krijoj vektorin me for loop filloj nga indeksi from deri tek to secilin element
+me atribute [data-index]===i i vendos klasen .selected dhe e afishoj ne sidebar.
+
+
+toggleSelect(div, index) merr si parameter divin qe perfaqeson formen apo elementin
+dhe indeksin e tij dhe ketij elementi i ben toggle klasen .selected. Me toggle nese e klikoj elementin une ia vendos stilim
+e klases .selected dhe nese e klikoj perseri une ia heq ate. Dhe elementet qe kane klasen .selected une i vendos tek sidebari.
+
+
+Funksioni addToSidebar() ben te mundur qe elementin apo elementet e zgjedhur ti afishoje 
+tek sidebar-i ne menyre qe te mund ti editoj. PEr cdo element te selektuar krijoj nje div dhe duke perdorur collapse nga bootstrap
+une i afishoj keto dive me titull "element ${id}" dhe nese e klikoj kete titull me shfaqet butoni qe ben te mudnur editimin e figures se selektuar.
+Ky buton ne klikim ekzekuton funskionin edit().
+
+Edit(index) merr elementin nga sidebar qe dua te editoj ne baze te indexit qe ka si parameter kjo metode.
+Pra nga containeri bej select elementin me atribut data-index === index
+ketij elementi i marr formen dhe ngjyren ne menyre qe ti afishoj tek dialog. Gjithashtu me duhej edhe nje metode per te kthyer ngjrat 
+nga rgb ne hexadecimal, sepse kur une i vendos input type color nje value apo marr value nga ajo, ky lloj inputi perdor ngjyrat ne format hexadecimal, 
+por duke qene se ne css une kam perdorur rgb me duhej kjo metode, sepse nuk klikoja edit per nje element ngjyra e tij aktuale nuk me afishohej tek
+input type color tek dialog.
+
+NEse figura eshte triangle me duhet te marr borderColor sepse keshtu e kam percaktuar style per triangle ne css.
+Dialog kur tregon ngjyren dhe shape aktual te elementit te klikuar per edit. dhe ketu te dialog une mund ta ndyshoj
+formen dhe ngjyren, keto vlera i lexoj dhe i ruaj ne menyre qe ti aplikoj tek elementi i selektuar kur te klikohet butoni save, nese
+klikohet cancel elementi i selektuar per edit nuk peson asnje ndryshim.
+Pasi ruaj ndryshimet pastroj formen me clearForm() dhe mbyll dialog.
+
+
+
+
+
