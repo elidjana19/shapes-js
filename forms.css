@@ -121,7 +121,7 @@ dialog input {
   margin: 10px;
 }
 
-.accordion-body-custom {
+/* .accordion-body-custom {
   background-color: rgb(215, 245, 250);
   display: flex;
   margin: 12px;
@@ -131,4 +131,37 @@ dialog input {
 
 .accordion-body-custom button {
   background-color: rgb(50, 201, 201);
+} */
+
+
+#selectedElements {
+  max-width: 300px;
+  margin-left: 40px;
 }
+
+
+div.top{
+  background-color:  rgb(215, 245, 250);
+  padding:20px;
+  font-size: 18px;
+  text-align: center;
+ 
+}
+.card {
+  margin-bottom: 12px;
+}
+
+.card-header a{
+  text-decoration: none;
+  font-weight: bold;
+  color:rgb(12, 114, 139);
+ 
+}
+.card-body button {
+  background-color: rgb(50, 201, 201);
+  position:relative;
+  left:100px
+}
+
+
+

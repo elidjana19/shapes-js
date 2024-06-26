@@ -22,63 +22,74 @@ btn.addEventListener("click", () => {
     const div = document.createElement("div");
     div.dataset.index = index;
     div.innerHTML = index;
-    console.log(div)
+    console.log(div);
+
     if (shape === "square") {
       div.classList.add("square");
     } else if (shape === "triangle") {
       div.classList.add("trianglee");
-      
     } else if (shape === "ellipse") {
       div.classList.add("ellipse");
     }
 
-    div.addEventListener("click", () => toggleSelect(div, index));
+    div.addEventListener("click", () => toggleSelect(div, index, shape));
     container.appendChild(div);
   }
 
   clearForm();
 });
 
-function toggleSelect(div, index) {
+function toggleSelect(div, index, shape) {
   div.classList.toggle("selected");
   if (div.classList.contains("selected")) {
-    addToSidebar(index);
+    addToSidebar(index, shape);
   } else {
     removeFromSidebar(index);
   }
 }
 
-function addToSidebar(index) {
+function addToSidebar(index, shape) {
   const elementId = `element-${index}`;
   const element = document.createElement("div");
   element.classList.add("accordion-item");
   element.innerHTML = `
-
-      
-        
-       <div class="accordion-body accordion-body-custom" >
-         <h5 class="accordion-header " id="heading-${index}">
-            Element ${index}
-        </h5>
-                <button class="btn btn-primary" onclick="openEditModal(${index})">Edit</button>
-            </div>
-    
-    `;
+ <div id="accordion">
+  <div class="card">
+    <div class="card-header top">
+      <a class="card-link" data-toggle="collapse" href="#collapse${index}">
+        Element ${index}
+      </a>
+    </div>
+    <div id="collapse${index}" class="collapse " data-parent="#accordion">
+      <div class="card-body div-collapse">
+        <p>Click edit to style element with ID: ${index} </p>
+        <button class="btn btn-primary" onclick="openEditModal(${index})">Edit</button>
+      </div>
+    </div>
+  </div>
+  </div>
+  `;
   element.id = elementId;
 
   selectedElements.appendChild(element);
 }
 
+
+
 function openEditModal(index) {
   const selectedElement = container.querySelector(`[data-index="${index}"]`);
-
   console.log(selectedElement);
+
   shapeSelect.value = selectedElement.classList[0];
 
   if (selectedElement.classList.contains("trianglee")) {
-    colorSelect.value = rgbToHex(selectedElement.style.borderBottomColor) || rgbToHex('rgb(215, 245, 250)');
+    colorSelect.value =
+      rgbToHex(selectedElement.style.borderBottomColor) ||
+      rgbToHex("rgb(215, 245, 250)");
   } else {
-    colorSelect.value = rgbToHex(selectedElement.style.backgroundColor) || rgbToHex('rgb(215, 245, 250)');
+    colorSelect.value =
+      rgbToHex(selectedElement.style.backgroundColor) ||
+      rgbToHex("rgb(215, 245, 250)");
   }
 
   dialog.showModal();
@@ -114,19 +125,19 @@ function removeFromSidebar(index) {
   }
 }
 
-
 function clearForm() {
   document.getElementById("shape").value = "";
   document.getElementById("rows").value = "";
   document.getElementById("columns").value = "";
 }
 
-
 function rgbToHex(rgbString) {
-    if (!rgbString) return null;
-    // Convert rgb color string to hex because input type color uses hex
-    const rgbArray = rgbString.match(/\d+/g).map(Number);
-    const hex = `#${rgbArray.map(c => c.toString(16).padStart(2, '0')).join('')}`;
-    
-    return hex.toUpperCase();
-  }
+  if (!rgbString) return null;
+  // Convert rgb color string to hex because input type color uses hex
+  const rgbArray = rgbString.match(/\d+/g).map(Number);
+  const hex = `#${rgbArray
+    .map((c) => c.toString(16).padStart(2, "0"))
+    .join("")}`;
+
+  return hex.toUpperCase();
+}
